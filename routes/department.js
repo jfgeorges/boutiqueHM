@@ -7,14 +7,20 @@ const Category = require("../models/category");
 
 router.post("/department/create", async (req, res) => {
   try {
-    // Notre sauvegarde
-    const department = new Department({
-      title: req.body.title
-    });
+    // Recherche le département en base
+    const checkDepartment = await Department.find({ title: req.body.title });
+    // Si le dpt n'existe pas
+    if (checkDepartment.length === 0) {
+      // Instanciation
+      const department = new Department({
+        title: req.body.title
+      });
 
-    await department.save();
-
-    res.json(department);
+      await department.save();
+      res.json(department);
+    } else {
+      res.json({ message: `${req.body.title} already exists` });
+    }
   } catch (error) {
     res.status(400).json({
       message: error.message
@@ -28,7 +34,7 @@ router.get("/department", async (req, res) => {
     res.json(departments);
   } catch (error) {
     res.status(400).json({
-      message: error.message
+      message: `Get Department: ${error.message}`
     });
   }
 });

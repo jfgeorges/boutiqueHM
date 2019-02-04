@@ -5,10 +5,19 @@ const mongoose = require("mongoose");
 
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/shop", {
-  useNewUrlParser: true
-});
+// Récupère l'argument pour démarrer en local
+devMode = process.argv[2];
 
+// Connection locale
+if (devMode === "localDb") {
+  console.log("BD Boutique Locale");
+  mongoose.connect("mongodb://localhost/boutique", { useNewUrlParser: true });
+} else {
+  // Connexion distante
+  mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/boutique", {
+    useNewUrlParser: true
+  });
+}
 // Initialiser les collections
 // Mongoose va prendre connaissance de ces collections
 require("./models/product");
@@ -27,6 +36,13 @@ app.use(categoryRoutes);
 app.use(productRoutes);
 app.use(reviewRoutes);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Boutique Server started");
-});
+if (devMode === "localDb") {
+  console.log("Local Boutique Server");
+  app.listen(3000, () => {
+    console.log("Boutique Server started");
+  });
+} else {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Boutique Server started");
+  });
+}

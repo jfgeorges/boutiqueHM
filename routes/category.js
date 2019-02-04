@@ -7,7 +7,7 @@ const Category = require("../models/category");
 
 router.post("/category/create", async (req, res) => {
   try {
-    // Notre sauvegarde
+    // Nouvelle Categorie
     const category = new Category({
       title: req.body.title,
       department: req.body.department
@@ -18,7 +18,7 @@ router.post("/category/create", async (req, res) => {
     res.json(category);
   } catch (error) {
     res.status(400).json({
-      message: error.message
+      message: `Create Category: ${error.message}`
     });
   }
 });

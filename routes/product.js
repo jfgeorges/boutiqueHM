@@ -20,7 +20,7 @@ router.post("/product/create", async (req, res) => {
     res.json(product);
   } catch (error) {
     res.status(400).json({
-      message: error.message
+      message: `Route Create Product: ${error.message}`
     });
   }
 });
