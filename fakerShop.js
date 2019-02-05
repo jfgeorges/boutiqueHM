@@ -1,8 +1,8 @@
 const axios = require("axios");
 const faker = require("faker");
 
-const appUrl = "http://localhost:3000";
-// const appUrl = "https://boutique-jfg.herokuapp.com";
+// const appUrl = "http://localhost:3000";
+const appUrl = "https://boutique-jfg.herokuapp.com";
 
 // ------------------------- //
 // CREATION DES DEPARTEMENTS //
